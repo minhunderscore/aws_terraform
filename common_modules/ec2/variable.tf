@@ -1,0 +1,3 @@
+variable "instance_config" {
+
+}
