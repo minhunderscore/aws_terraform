@@ -1,6 +1,5 @@
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_config.cidr_block
-
   tags = {
     Name = "minhph_vpc"
   }
