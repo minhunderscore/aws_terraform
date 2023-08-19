@@ -5,9 +5,9 @@ module "vars" {
 }
 
 locals {
-  configuration         = module.vars.configuration
-  global_variables      = module.vars.global_variables
-  global_tags           = module.vars.tags
+  configuration    = module.vars.configuration
+  global_variables = module.vars.global_variables
+  global_tags      = module.vars.tags
 }
 
 variable "access_key" {
@@ -27,6 +27,6 @@ variable "secret_key_private" {
 }
 
 variable "lab_file" {
-  type = string
+  type        = string
   description = "The lab variable file to run"
 }

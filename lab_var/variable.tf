@@ -1,4 +1,4 @@
 variable "lab_file" {
-  type = string
+  type        = string
   description = "The variable labfile to run"
 }

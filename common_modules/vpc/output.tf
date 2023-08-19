@@ -1,5 +1,5 @@
 output "subnets" {
-  value = aws_subnet.subnet 
+  value = aws_subnet.subnet
 }
 
 output "security_groups" {

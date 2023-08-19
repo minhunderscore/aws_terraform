@@ -1,9 +1,9 @@
 locals {
   lab_file = {
-    "lab01": local.lab01,
-    "lab02": local.lab02,
-    "lab03": local.lab03,
-}
+    "lab01" : local.lab01,
+    "lab02" : local.lab02,
+    "lab03" : local.lab03,
+  }
 }
 
 output "configuration" {

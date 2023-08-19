@@ -18,32 +18,27 @@ locals {
     key = {
 
     }
-    
+
     ##########################
     # EC2 CONFIG
     ##########################
-    ec2 = {
-      instance_config = {
-        "public-ec2-1" = {
-            ami           = "ami-0a709bebf4fa9246f"
-            instance_type = "t2.micro"
-            subnet_id     = "public-subn-1"
-            security_group = "sd-1"
-          }
-        }
-
-        "private-ec2-1" = {
-          ami           = "ami-0a709bebf4fa9246f"
-          instance_type = "t2.micro"
-          subnet_id     = "private-subn-1"
-          security_group = "sd-1"
-        }
+    instance_config = {
+      "public-ec2-1" = {
+        ami            = "ami-0a709bebf4fa9246f"
+        instance_type  = "t2.micro"
+        subnet_id      = "public-subn-1"
+        security_group = "sd-1"
       }
-
-      # tags = {
-      #   Name = "minhph"
-      # }
+    "private-ec2-1" = {
+      ami            = "ami-0a709bebf4fa9246f"
+      instance_type  = "t2.micro"
+      subnet_id      = "private-subn-1"
+      security_group = "sd-1"
+      }
     }
+    # tags = {
+    #   Name = "minhph"
+    # }
 
     ##########################
     # VPC CONFIG
@@ -104,5 +99,6 @@ locals {
           ]
         }
       }
+    }
   }
 }

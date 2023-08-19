@@ -32,24 +32,24 @@ module "s3" {
 ##########################
 
 module "ec2" {
-  source = "../common_modules/ec2" 
+  source = "../common_modules/ec2"
   instance_config = {
-    for key , value in local.configuration.instance_config : 
-      key => merge(value, 
+    for key, value in local.configuration.instance_config :
+    key => merge(value,
       {
-        subnet_id = module.vpc.subnets[value.subnet].id
+        subnet_id         = module.vpc.subnets[value.subnet].id
         security_group_id = [module.vpc.security_groups[value.security_group].id]
       }
-      )
+    )
   }
-} 
+}
 
 ##########################
 # VPC MODULE
 ##########################
 
 module "vpc" {
-  source                = "../common_modules/vpc"
+  source     = "../common_modules/vpc"
   vpc_config = local.configuration.vpc_config
 }
 

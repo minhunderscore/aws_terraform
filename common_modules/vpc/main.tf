@@ -7,25 +7,24 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_subnet" "subnet" {
-  vpc_id     = aws_vpc.vpc.id
-  for_each   = var.vpc_config.subnets
+  vpc_id                  = aws_vpc.vpc.id
+  for_each                = var.vpc_config.subnets
   cidr_block              = each.value.cidr_block
   availability_zone       = each.value.availability_zone
   map_public_ip_on_launch = each.value.map_public_ip_on_launch
-
-#   tags = {
-#     Name = "minhph_subnet_{}"
-#   }
+  #   tags = {
+  #     Name = "minhph_subnet_{}"
+  #   }
 }
 
 resource "aws_eip" "eip" {
-#   instance = aws_instance.instance.id
-    for_each = var.vpc_config.nat_gateways
+  #   instance = aws_instance.instance.id
+  for_each = var.vpc_config.nat_gateways
   vpc      = true
 }
 
 resource "aws_internet_gateway" "ig" {
-      vpc_id   = aws_vpc.vpc.id
+  vpc_id   = aws_vpc.vpc.id
   for_each = var.vpc_config.internet_gateway == true ? toset(["1"]) : []
 }
 
