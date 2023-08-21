@@ -39,6 +39,7 @@ module "ec2" {
       {
         subnet_id         = module.vpc.subnets[value.subnet].id
         security_group_id = [module.vpc.security_groups[value.security_group].id]
+        key_name = module.key_pair.key_name
       }
     )
   }
@@ -54,10 +55,10 @@ module "vpc" {
 }
 
 ##########################
-# Key MODULE
+# KEY MODULE
 ##########################
 
-# module "key" {
-#   source                = "../common_modules/key_pair"
-#   key = local.configuration.key
-# }
+module "key_pair" {
+  source     = "../common_modules/key_pair"
+  key_config = local.configuration.key_config
+}

@@ -4,6 +4,7 @@ resource "aws_instance" "instance" {
   ami             = each.value.ami
   subnet_id       = each.value.subnet_id
   security_groups = each.value.security_group_id
+  key_name        = each.value.key_name
   user_data = base64encode(
     <<-EOF
     #!/bin/bash
@@ -13,5 +14,4 @@ resource "aws_instance" "instance" {
     systemctl enable nginx
     EOF
   )
-
 }

@@ -57,3 +57,30 @@ resource "aws_nat_gateway" "nat" {
   for_each      = var.vpc_config.nat_gateways
   allocation_id = aws_eip.eip[each.key].id
 }
+
+resource "aws_route_table" "rb" {
+  vpc_id = aws_vpc.vpc.id
+  for_each = var.vpc_config.route_tables
+  dynamic "route" {
+    for_each = each.value.route
+    content {
+      cidr_block                = route.value.destination_cidr_block
+      carrier_gateway_id        = try(route.value.carrier_gateway, null)
+      core_network_arn          = try(route.value.core_network_arn, null)
+      egress_only_gateway_id    = try(route.value.egress_only_gateway, null)
+      gateway_id                = try(route.value.gateway, null) == "internet_gateway" ? aws_internet_gateway.ig["1"].id : null
+      local_gateway_id          = try(route.value.local_gateway, null)
+      nat_gateway_id            = try(aws_nat_gateway.nat[try(route.value.nat_gateway, "")].id,null)
+      network_interface_id      = try(route.value.network_interface, null)
+      transit_gateway_id        = try(route.value.transit_gateway, null)
+      vpc_endpoint_id           = try(route.value.vpc_endpoint, null)
+      vpc_peering_connection_id = try(route.value.vpc_peering_connection, null)
+    }
+  }
+}
+
+resource "aws_route_table_association" "rb-association" {
+  for_each = var.vpc_config.subnets 
+  subnet_id = aws_subnet.subnet[each.key].id 
+  route_table_id = aws_route_table.rb[each.value.route_table].id 
+}

@@ -13,10 +13,11 @@ locals {
     }
 
     ##########################
-    # Key CONFIG
+    # KEY CONFIG
     ##########################
-    key = {
-
+    key_config = {
+      key_name   = "key_1"
+      public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzbDnAAHcTWzL24sc8NcBdAATdotX7+S/PuApn/l1XhNCzPy4gSdikVaRSYOwdql5ysvC9rETuXeAd8BcIsS/QpOQlob9x8CiMzk3G2rlzTtAKwIix+CnJK2T2TsN44RpTapDRdcBYk8LVyqlgOLt35rvEgPhL9oTibok5mPTc/630P2dsYlvsMMvyEZ73c+PXWIYj/HXSjBKOx5HdmUURbTtIHkgv4+8+QaAaOiwoWnOC2XpD9e9PpOovW06zCdPj7AnWwMxWmbLac+TEo48vJ9XX2h9KswT2687DIQmwQGd1MbXz5P/H6FW3TQvG//1G4zMHXZ7yn1q9MmHl2VAq5ZKAGZeGu4zFTGXln69/BBlceq3snC/TGXC0Q7nft1JYKQyQmUdauLe/jdT35q9hbEE2yDAF7LGo+O+mEVOoU462gC26mx9wIqRta+TU+9Yb8yJiu464EBh1vz0mKYJ2M2AIo2glytAx6D6C2AvQtJVpb9WsemxIh0DOPRHQgck= Admin@KALI-LINUX"
     }
 
     ##########################
@@ -80,21 +81,39 @@ locals {
       security_groups = {
         "sd-1" = {
           name        = "sydney-rule"
-          description = "Allow SSH Inbound Outbound"
+          description = "Allow popular Inbound Outbound"
           ingress = [
             {
               protocol   = "tcp"
-              from_port  = 22
-              to_port    = 22
+              from_port  = 0
+              to_port    = 1024
               cidr_block = ["0.0.0.0/0"]
             }
           ],
           egress = [
             {
               protocol   = "tcp"
-              from_port  = 23
-              to_port    = 80
+              from_port  = 0
+              to_port    = 1024
               cidr_block = ["0.0.0.0/0"]
+            }
+          ]
+        }
+      }
+      route_tables = {
+        "public-subn-rb" = {
+          route = [
+            {
+              destination_cidr_block = "0.0.0.0/0"
+              gateway                = "internet_gateway"
+            }
+          ]
+        },
+        "private-subn-rb" = {
+          route = [
+            {
+              destination_cidr_block = "0.0.0.0/0"
+              nat_gateway            = "nat-gw-1"
             }
           ]
         }
